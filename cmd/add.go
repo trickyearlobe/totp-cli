@@ -16,6 +16,8 @@ limitations under the License.
 package cmd
 
 import (
+	"os"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -57,10 +59,11 @@ Example using 1Password
 		secret, err := cmd.Flags().GetString("secret")
 		cobra.CheckErr(err)
 
-		// {
-		// 	cmd.Help()
-		// 	os.Exit(1)
-		// }
+		if name == "" || secret == "" {
+			cmd.Help()
+			os.Exit(1)
+		}
+
 		viper.Set("secrets."+name, secret)
 		viper.WriteConfig()
 	},
